@@ -1,0 +1,28 @@
+name: Nix
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: check (${{ matrix.system }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - system: x86_64-linux
+            runner: ubuntu-24.04
+          - system: aarch64-linux
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - uses: DeterminateSystems/determinate-nix-action@527f17dd63d2d60d3e5552934bc84b9a33a14d11 # v3.22.2
+
+      - uses: DeterminateSystems/magic-nix-cache-action@908b263ff629f4cc17666315b7fd3ec127c6244d # v14
+
+      - name: Check flake
+        run: |
+          nix flake check --keep-going --print-build-logs \
+            "github:${{ github.repository }}/${{ github.sha }}"

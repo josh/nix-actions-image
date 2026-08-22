@@ -1,0 +1,7 @@
+#!/bin/sh
+set -u
+: "${NIX_BUILT_PATHS_FILE:=/run/nix-actions/built-paths}"
+[ -n "${OUT_PATHS:-}" ] || exit 0
+# shellcheck disable=SC2086
+printf '%s\n' $OUT_PATHS >>"$NIX_BUILT_PATHS_FILE" 2>/dev/null || :
+exit 0
