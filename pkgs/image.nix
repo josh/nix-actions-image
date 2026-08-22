@@ -30,7 +30,7 @@ dockerTools.streamLayeredImage {
   config = {
     Cmd = [ "/bin/bash" ];
     Env = [
-      "PATH=/bin:/usr/bin"
+      "PATH=/root/.nix-profile/bin:/bin:/usr/bin"
       "HOME=/root"
       "USER=root"
       "LANG=C.UTF-8"
